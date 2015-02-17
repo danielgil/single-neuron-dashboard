@@ -1,5 +1,7 @@
 require 'snd/cli'
-require 'snd/app'
+require 'snd/api'
+require 'snd/controller'
+require 'snd/application'
 
 module Snd
 end

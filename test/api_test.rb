@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AppTest < Snd::Test
+class ApiTest < Snd::Test
   def setup
 
   end

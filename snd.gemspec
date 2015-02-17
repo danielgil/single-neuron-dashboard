@@ -20,6 +20,9 @@ Gem::Specification.new do |s|
   s.add_dependency('thin')
   s.add_dependency('rack')
   s.add_dependency('thor')
+  s.add_dependency('sass')
+  s.add_dependency('execjs')
+  s.add_dependency('sprockets')
 
   s.add_development_dependency('rake')
   s.add_development_dependency('fakeweb')
