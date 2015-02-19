@@ -63,6 +63,38 @@ class ApiTest < Snd::Test
     assert_equal last_json, {'status' => 'Failure'}.to_json
   end
 
+  def test_list
+      testdata = {  'test-app1' => { 'start_cmd'   => 'service tomcat start',
+                                   'stop_cmd'    => 'service tomcat stop',
+                                   'log_file'    => '/opt/tomcat/logs/catalina.out',
+                    },
+                    'test-app2' => { 'start_cmd'   => 'service tomcat start',
+                                   'status_cmd'  => 'service tomcat status',
+                                   'list_cmd'    => 'wget http://localhost:8080',
+                                   'deploy_cmd'  => 'puppet apply /tmp/tomcat.pp',
+                                   'log_file'    => '/opt/tomcat/logs/catalina.out'}}
+      to_test_file testdata
+      get '/list'
+
+      expected = {
+              'test-app1' => {'start'   => true,
+                              'stop'    => true,
+                              'status'  => false,
+                              'list'    => false,
+                              'deploy'  => false,
+                              'version' => false,
+                              'log'     => true},
+              'test-app2' => {'start'   => true,
+                              'stop'    => false,
+                              'status'  => true,
+                              'list'    => true,
+                              'deploy'  => true,
+                              'version' => false,
+                              'log'     => true}
+      }.to_json
+      assert_equal last_json, expected
+  end
+
 
 end
 

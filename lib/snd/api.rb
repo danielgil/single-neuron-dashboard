@@ -31,8 +31,12 @@ get '/stop/:application' do
   json :status => app.stop
 end
 
+get '/list' do
+  json settings.controller.list
+end
+
 get '/list/:application' do
-  "test"
+  "list #{params[:application]}"
 end
 
 get '/deploy/:application' do
