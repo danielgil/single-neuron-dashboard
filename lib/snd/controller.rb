@@ -20,7 +20,6 @@ class Controller
       @apps[key].version_cmd = value['version_cmd'] if value.has_key? 'version_cmd'
       @apps[key].log_file = value['log_file']       if value.has_key? 'log_file'
     end
-    p @apps.inspect
   end
 
 end

@@ -5,12 +5,5 @@ class CliTest < Snd::Test
 
   end
 
-  def app
-    Sinatra::Application
-  end
 
-  def test_test
-    get '/'
-    assert_equal 200, last_response.status
-  end
 end

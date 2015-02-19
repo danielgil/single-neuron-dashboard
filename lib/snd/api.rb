@@ -1,39 +1,32 @@
 require 'sinatra'
 require 'sinatra/json'
-
 require 'snd/controller'
 
-def development?
-  ENV['RACK_ENV'] == 'development'
-end
+#controller = Controller.new
 
-def production?
-  ENV['RACK_ENV'] == 'production'
-end
 
 set :root, Dir.pwd
 set :public_folder, File.join(settings.root, 'public')
-
-controller = Controller.new
+set :controller, Controller.new
 
 get '/' do
   File.read('public/index.html')
 end
 
 get '/status/:application' do
-  app = controller.apps[params[:application]]
+  app = settings.controller.apps[params[:application]]
   return json :status => 'App not found' if app.nil?
   json :status => app.status
 end
 
 get '/start/:application' do
-  app = controller.apps[params[:application]]
+  app = settings.controller.apps[params[:application]]
   return json :status => 'App not found' if app.nil?
   json :status => app.start
 end
 
 get '/stop/:application' do
-  app = controller.apps[params[:application]]
+  app = settings.controller.apps[params[:application]]
   return json :status => 'App not found' if app.nil?
   json :status => app.stop
 end
@@ -58,3 +51,10 @@ not_found do
   json :status => 'Invalid request'
 end
 
+def development?
+  ENV['RACK_ENV'] == 'development'
+end
+
+def production?
+  ENV['RACK_ENV'] == 'production'
+end

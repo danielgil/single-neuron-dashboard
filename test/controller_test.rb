@@ -3,8 +3,8 @@ require 'test_helper'
 class ControllerTest < Snd::Test
 
   def test_configfile
-    File.delete('conf/applications.yaml') if File.exist?('conf/applications.yaml')
-    File.open('conf/applications.yaml', 'w') do |file|
+    File.delete('conf/test.yaml') if File.exist?('conf/test.yaml')
+    File.open('conf/test.yaml', 'w') do |file|
       testdata = { 'first-app' => { 'start_cmd'   => 'service tomcat start',
                                     'stop_cmd'    => 'service tomcat stop',
                                     'status_cmd'  => 'service tomcat status',
@@ -20,12 +20,11 @@ class ControllerTest < Snd::Test
       @controller = Controller.new('conf/doesntexist.yaml')
     end
 
-    @controller = Controller.new('conf/applications.yaml')
+    @controller = Controller.new('conf/test.yaml')
 
     assert_equal @controller.apps['first-app'].name, 'first-app'
     assert_equal @controller.apps['first-app'].start_cmd, 'service tomcat start'
     assert_equal @controller.apps['first-app'].log_file, '/opt/tomcat/logs/catalina.out'
 
   end
-
 end
