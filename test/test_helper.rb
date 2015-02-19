@@ -5,6 +5,7 @@ require 'rack/test'
 require 'fakeweb'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'json_spec'
 
 require_relative '../lib/snd'
 
@@ -18,6 +19,10 @@ module Snd
 
     def teardown
 
+    end
+
+    def last_json
+      last_response.body
     end
   end
 end

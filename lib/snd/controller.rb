@@ -5,9 +5,10 @@ class Controller
 
   attr_reader :apps
 
-  def initialize
+  def initialize(configfile='conf/applications.yaml')
     @apps = {}
-    @config = YAML.load_file('conf/applications.yaml')
+
+    @config = YAML.load_file(configfile)
 
     @config.each do |key,value|
       @apps[key] = Application.new(key)

@@ -1,20 +1,17 @@
 ---
 first-app:
-  start_cmd   : 'service tomcat start'
-  stop_cmd    : 'service tomcat stop'
-  status_cmd  : 'service tomcat status'
-  list_cmd    : 'wget http://localhost:8080'
-  deploy_cmd  : 'puppet apply /tmp/tomcat.pp'
-  version_cmd : 'cat /opt/tomcat/VERSION'
-  log_file    : '/opt/tomcat/logs/catalina.out'
+  start_cmd: service tomcat start
+  stop_cmd: service tomcat stop
+  status_cmd: ":"
+  list_cmd: wget http://localhost:8080
+  deploy_cmd: puppet apply /tmp/tomcat.pp
+  version_cmd: cat /opt/tomcat/VERSION
+  log_file: "/opt/tomcat/logs/catalina.out"
 second-app:
-   start_cmd   : 'service apache start'
-   stop_cmd    : 'service apache stop'
-   status_cmd  : 'service apache status'
-   list_cmd    : 'wget http://localhost:8080'
-   deploy_cmd  : 'puppet apply /tmp/tomcat.pp'
-   version_cmd : 'cat /opt/tomcat/VERSION'
-   log_file    : '/opt/tomcat/logs/catalina.out'
-third-app:
-  start_cmd   : 'service tomcat start'
-  stop_cmd    : 'service tomcat stop'
+  start_cmd: service apache start
+  stop_cmd: service apache stop
+  status_cmd: doesnotexist
+  list_cmd: wget http://domain.tld:80
+  deploy_cmd: puppet apply /tmp/apache.pp
+  version_cmd: rpm -qa | grep apache
+  log_file: "/var/log/httpd/access_log"
