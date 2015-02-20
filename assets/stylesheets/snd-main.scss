@@ -1,32 +1,37 @@
 .app-item{
-    padding: 4%;
-    margin: 4% 0;
-    border: 1px solid #DDD;
-    border-radius: 3px;
+	padding: 4%;
+	margin: 4% 0;
+	border: 1px solid #DDD;
+	border-radius: 3px;
 }
 
 .app-item-status{
-    float: right;
-    padding: 5px;
-    border-radius: 20px;
-    background: green;
+	float: right;
+	padding: 5px;
+	border-radius: 20px;
+	background: green;
+
+	i{
+		color: #FFF;
+	}
+
 }
 
-.app-item-status i{
-    color: #FFF;
+.app-item-header{
+	h2{
+		margin-top: 0;
+	}
+	span{
+		display: block;
+	}
 }
-
-.app-item-header h2{
-    margin-top: 0;
-}
-.app-item-header span{
-    display: block;
-}
-.app-item-controls button{
-    margin-bottom: 5px;
-    width: 30%;
-}
-.app-item-controls select{
-    width: 62%;
-    display: inline-block;
+.app-item-controls{
+	button{
+		margin-bottom: 5px;
+		width: 30%;
+	}
+	select{
+		width: 62%;
+		display: inline-block;
+	}
 }
