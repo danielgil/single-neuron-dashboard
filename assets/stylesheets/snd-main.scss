@@ -1,13 +1,15 @@
 .app-item{
-	padding: 4%;
+	padding: 3%;
 	margin: 4% 0;
-	border: 1px solid #DDD;
+	background-color: #F5F5F5;
+	border: 1px solid rgba(0, 0, 0, 0.05);
 	border-radius: 3px;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .app-item-status{
 	float: right;
-	padding: 5px;
+	padding: 7px 10px;
 	border-radius: 20px;
 	background: green;
 
@@ -18,7 +20,10 @@
 }
 
 .app-item-header{
-	h2{
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+
+	h3{
 		margin-top: 0;
 	}
 	span{
@@ -27,11 +32,19 @@
 }
 .app-item-controls{
 	button{
+		min-width: 60px;
 		margin-bottom: 5px;
-		width: 30%;
+
+		i{
+			padding-right: 4px;
+		}
 	}
 	select{
-		width: 62%;
+		width: 50%;
 		display: inline-block;
+
+		& + button{
+			width: 30%;
+		}
 	}
 }

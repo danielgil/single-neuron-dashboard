@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="sndapp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,37 +15,45 @@
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>-->
+    <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
     <![endif]-->
     <script src="/assets/vendor/angular.min.js"></script>
     <script src="/assets/snd-app.js"></script>
 
 </head>
-<body ng-app="single-neuron-app">
+<body>
 
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="ListController">
     <div class="row">
         <div class="col-lg-4  col-sm-4  col-xs-12">
 
-            <div class="app-item  bg-info">
+            <div class="app-item" ng-repeat="app in apps">
                 <div class="app-item-header">
                     <div class="app-item-status">
                         <i class="fa fa-spinner"></i>
                     </div>
-                    <h2>SkyeApp</h2>
-                    <span>Version 4.28.0</span>
+                    <h3>{{app.name}} <small>Version 4.28.0</small></h3>
                     <span>Definitions: master</span>
                 </div>
                 <div class="app-item-controls">
-                    <button type="button" class="btn  btn-sm  btn-primary">Start</button>
-                    <button type="button" class="btn  btn-sm  btn-primary">Stop</button>
-                    <button type="button" class="btn  btn-sm  btn-primary">Export Log</button>
-
+                    <button type="button" ng-click="giveList()" class="btn  btn-sm  btn-success">
+                        <i class="fa fa-play"></i> Start
+                    </button>
+                    <button type="button" class="btn  btn-sm  btn-danger">
+                        <i class="fa fa-stop"></i>Stop
+                    </button>
+                    <br/>
                     <select class="form-control">
                         <option value="">4.28.0-SNAPSHOT</option>
                     </select>
-                    <button type="button" class="btn  btn-sm  btn-primary">Deploy</button>
+                    <button type="button" class="btn  btn-sm  btn-primary">
+                        <i class="fa fa-cog"></i>Deploy
+                    </button>
+                    <br/>
+                    <button type="button" class="btn  btn-sm  btn-primary">
+                        <i class="fa fa-external-link"></i>Export Log
+                    </button>
                 </div>
             </div>
 
@@ -56,23 +64,6 @@
     </div>
 
 </div>
-
-
-<!--<div ng-controller="TodoController" >-->
-<!--<span>{{remaining()}} of {{todos.length}}</span>-->
-<!--[ <a href="" ng-click="archive">archive</a> ]-->
-<!--<ul class="unstyled">-->
-<!--<li ng-repeat="todo in todos">-->
-<!--<input type="checkbox" ng-model="todo.done"/>-->
-<!--<span class="todo-{{todo.done}}">{{todo.text}}</span>-->
-<!--</li>-->
-<!--</ul>-->
-<!--<form ng-submit="addTodo()">-->
-<!--<input type="text" ng-model="todoText" size="30" placeholder="Add new todo"/>-->
-<!--<input class="btn  btn-primary" type="submit" value="Add"/>-->
-<!--</form>-->
-<!--</div>-->
-<!--<h1>Hello, world!</h1>-->
 
 </body>
 </html>
