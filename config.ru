@@ -1,5 +1,6 @@
 require_relative 'lib/snd'
 require 'sprockets'
+require 'sass'
 
 configure do
 
@@ -17,6 +18,7 @@ map '/assets' do
   environment.append_path 'assets/stylesheets'
   environment.append_path 'assets/fonts'
   environment.append_path 'assets/images'
+  environment.css_compressor = :scss
   run environment
 end
 

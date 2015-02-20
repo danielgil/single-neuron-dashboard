@@ -2,7 +2,6 @@ require 'sinatra'
 require 'sinatra/json'
 require 'snd/controller'
 
-#controller = Controller.new
 
 
 set :root, Dir.pwd
@@ -36,7 +35,9 @@ get '/list' do
 end
 
 get '/list/:application' do
-  "list #{params[:application]}"
+  app = settings.controller.apps[params[:application]]
+  return json :status => 'App not found' if app.nil?
+  json :versions => app.list
 end
 
 get '/deploy/:application' do

@@ -1,10 +1,12 @@
-
+require 'snd/lister'
 class Application
+  include Lister
   attr_reader :name
   attr_accessor :status_cmd, :start_cmd, :stop_cmd, :list_cmd, :deploy_cmd, :version_cmd, :log_file
 
   def initialize(name)
     @name = name
+    @lister = nil
   end
 
   def status
@@ -31,13 +33,20 @@ class Application
 
   def list
     return 'Command not available' if @list_cmd.nil?
+    command = @list_cmd.split(',')
+    p command.inspect
+    return from_nexus(command[1], command[2], command[3]) if command[0] == 'nexus'
+    return from_command(command[1]) if command[0] == 'command'
+
   end
 
   def deploy
-    return 'Command not available' if @deploy_cmd.nil?
+    'Command not available' if @deploy_cmd.nil?
   end
 
   def version
-    return 'Command not available' if @version_cmd.nil?
+    'Command not available' if @version_cmd.nil?
   end
+
+
 end

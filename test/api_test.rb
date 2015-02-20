@@ -95,6 +95,12 @@ class ApiTest < Snd::Test
       assert_equal last_json, expected
   end
 
+  def test_list_application
+    to_test_file({'test-app' => {'list_cmd' => 'nexus,http://nexus.host:8081,com.myorg,myartifact'}})
+    get '/list/test-app'
+    assert_equal last_json, {'status' => 'Running'}.to_json
+  end
+
 
 end
 

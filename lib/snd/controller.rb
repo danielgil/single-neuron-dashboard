@@ -21,8 +21,7 @@ class Controller
       @apps[key].log_file = value['log_file']       if value.has_key? 'log_file'
     end
     list_apps
-
-  end
+   end
 
   def list_apps
     @list = {}
