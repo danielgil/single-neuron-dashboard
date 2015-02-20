@@ -24,16 +24,18 @@ class Controller
    end
 
   def list_apps
-    @list = {}
+    @list = []
     @apps.each do |name,app|
-      @list[name] = {}
-      @list[name]['start'] = !app.start_cmd.nil?
-      @list[name]['stop'] = !app.stop_cmd.nil?
-      @list[name]['status'] = !app.status_cmd.nil?
-      @list[name]['list'] = !app.list_cmd.nil?
-      @list[name]['deploy'] = !app.deploy_cmd.nil?
-      @list[name]['version'] = !app.version_cmd.nil?
-      @list[name]['log'] = !app.log_file.nil?
+      @list << {}
+      @list[-1]['name'] = name
+      @list[-1]['options'] = {}
+      @list[-1]['options']['start'] = !app.start_cmd.nil?
+      @list[-1]['options']['stop'] = !app.stop_cmd.nil?
+      @list[-1]['options']['status'] = !app.status_cmd.nil?
+      @list[-1]['options']['list'] = !app.list_cmd.nil?
+      @list[-1]['options']['deploy'] = !app.deploy_cmd.nil?
+      @list[-1]['options']['version'] = !app.version_cmd.nil?
+      @list[-1]['options']['log'] = !app.log_file.nil?
     end
   end
 
