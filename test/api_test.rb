@@ -76,22 +76,24 @@ class ApiTest < Snd::Test
       to_test_file testdata
       get '/list'
 
-      expected = {
-              'test-app1' => {'start'   => true,
-                              'stop'    => true,
-                              'status'  => false,
-                              'list'    => false,
-                              'deploy'  => false,
-                              'version' => false,
-                              'log'     => true},
-              'test-app2' => {'start'   => true,
-                              'stop'    => false,
-                              'status'  => true,
-                              'list'    => true,
-                              'deploy'  => true,
-                              'version' => false,
-                              'log'     => true}
-      }.to_json
+      expected = [{'name'    =>  'test-app1',
+                  'options'  => {'start'   => true,
+                                 'stop'    => true,
+                                 'status'  => false,
+                                 'list'    => false,
+                                 'deploy'  => false,
+                                 'version' => false,
+                                 'log'     => true}
+                  },
+                  {'name'    =>  'test-app2',
+                   'options' => {'start'   => true,
+                                 'stop'    => false,
+                                 'status'  => true,
+                                 'list'    => true,
+                                 'deploy'  => true,
+                                 'version' => false,
+                                 'log'     => true}
+                  }].to_json
       assert_equal last_json, expected
   end
 
