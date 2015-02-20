@@ -1,6 +1,78 @@
-<html>
-<h1>
-    Testy tester, waiting to plug into Angular
-</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SND</title>
 
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="../assets/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/stylesheets/snd-main.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="../assets/javascripts/vendor/angular.min.js"></script>
+    <script src="../assets/javascripts/snd-app.js"></script>
+
+</head>
+<body ng-app="single-neuron-app">
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4  col-sm-4  col-xs-12">
+
+            <div class="app-item  bg-info">
+                <div class="app-item-header">
+                    <div class="app-item-status">
+                        <i class="fa fa-spinner"></i>
+                    </div>
+                    <h2>SkyeApp</h2>
+                    <span>Version 4.28.0</span>
+                    <span>Definitions: master</span>
+                </div>
+                <div class="app-item-controls">
+                    <button type="button" class="btn  btn-sm  btn-primary">Start</button>
+                    <button type="button" class="btn  btn-sm  btn-primary">Stop</button>
+                    <button type="button" class="btn  btn-sm  btn-primary">Export Log</button>
+
+                    <select class="form-control">
+                        <option value="">4.28.0-SNAPSHOT</option>
+                    </select>
+                    <button type="button" class="btn  btn-sm  btn-primary">Deploy</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-8  col-sm-8  col-xs-12">
+            <h2>Logs</h2>
+        </div>
+    </div>
+
+</div>
+
+
+<!--<div ng-controller="TodoController" >-->
+<!--<span>{{remaining()}} of {{todos.length}}</span>-->
+<!--[ <a href="" ng-click="archive">archive</a> ]-->
+<!--<ul class="unstyled">-->
+<!--<li ng-repeat="todo in todos">-->
+<!--<input type="checkbox" ng-model="todo.done"/>-->
+<!--<span class="todo-{{todo.done}}">{{todo.text}}</span>-->
+<!--</li>-->
+<!--</ul>-->
+<!--<form ng-submit="addTodo()">-->
+<!--<input type="text" ng-model="todoText" size="30" placeholder="Add new todo"/>-->
+<!--<input class="btn  btn-primary" type="submit" value="Add"/>-->
+<!--</form>-->
+<!--</div>-->
+<!--<h1>Hello, world!</h1>-->
+
+</body>
 </html>
