@@ -28,6 +28,7 @@ class Controller
     @apps.each do |name,app|
       @list << {}
       @list[-1]['name'] = name
+      @list[-1]['status'] = ''
       @list[-1]['options'] = {}
       @list[-1]['options']['start'] = !app.start_cmd.nil?
       @list[-1]['options']['stop'] = !app.stop_cmd.nil?

@@ -19,39 +19,52 @@
     <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
     <![endif]-->
     <script src="/assets/vendor/angular.min.js"></script>
+    <script src="/assets/vendor/jquery-1.10.2.min.js"></script>
     <script src="/assets/snd-app.js"></script>
 
 </head>
 <body>
 
-<div class="container-fluid" ng-controller="ListController">
+<div class="container-fluid" ng-controller="ListController" ng-init="getList()">
     <div class="row">
         <div class="col-lg-4  col-sm-4  col-xs-12">
 
-            <div class="app-item" ng-repeat="app in apps">
+            <div class="app-item  app-item--{{app.status}}" ng-repeat="app in apps">
                 <div class="app-item-header">
-                    <div class="app-item-status">
-                        <i class="fa fa-spinner"></i>
+
+
+                    <div class="app-item-status app-item-status--{{app.currentStatus}}" ng-show="app.options.status" ng-click="getAppStatus(app.name)">
+                        <i class="fa fa-spinner  status--loading"></i>
+                        <i class="fa fa-play  status--started"></i>
+                        <i class="fa fa-stop  status--stopped"></i>
+                        <i class="fa fa-remove  status--error"></i>
+                        <em>{{app.status}}</em>
                     </div>
-                    <h3>{{app.name}} <small>Version 4.28.0</small></h3>
+
+                    <h3>{{app.name}}
+                        <small ng-show="app.options.version">Version 4.28.0</small>
+                    </h3>
+
                     <span>Definitions: master</span>
                 </div>
                 <div class="app-item-controls">
-                    <button type="button" ng-click="giveList()" class="btn  btn-sm  btn-success">
+                    <button type="button" ng-show="app.options.start" ng-click="startApp(app.name)" class="btn  btn-sm  btn-success">
                         <i class="fa fa-play"></i> Start
                     </button>
-                    <button type="button" class="btn  btn-sm  btn-danger">
+                    <button type="button" ng-show="app.options.stop" ng-click="stopApp(app.name)" class="btn  btn-sm  btn-danger">
                         <i class="fa fa-stop"></i>Stop
                     </button>
+
+
                     <br/>
                     <select class="form-control">
                         <option value="">4.28.0-SNAPSHOT</option>
                     </select>
-                    <button type="button" class="btn  btn-sm  btn-primary">
+                    <button type="button" ng-show="app.options.deploy" ng-click="deployApp(app.name)" class="btn  btn-sm  btn-primary">
                         <i class="fa fa-cog"></i>Deploy
                     </button>
                     <br/>
-                    <button type="button" class="btn  btn-sm  btn-primary">
+                    <button type="button" ng-show="app.options.log" ng-click="exportApp(app.name)"  class="btn  btn-sm  btn-primary">
                         <i class="fa fa-external-link"></i>Export Log
                     </button>
                 </div>
