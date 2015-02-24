@@ -3,9 +3,9 @@ first-app:
   start_cmd   : 'service tomcat start'
   stop_cmd    : 'service tomcat stop'
   status_cmd  : 'service tomcat status'
-  list_cmd    : 'nexus,http://nexus.host:8081,com.myorg,myartifact'
+  list_cmd    : 'command,echo -n "1.0 2.0 3.0 4.0 5.0"'
   deploy_cmd  : 'puppet apply /tmp/tomcat.pp'
-  version_cmd : 'cat /opt/tomcat/VERSION'
+  version_cmd : 'notacommand'
   log_file    : '/opt/tomcat/logs/catalina.out'
 second-app:
    start_cmd   : 'service apache start'

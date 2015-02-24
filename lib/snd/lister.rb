@@ -1,6 +1,7 @@
 require 'json'
 require 'net/http'
 require 'rexml/document'
+require 'open3'
 include REXML
 
 module Lister
@@ -11,6 +12,7 @@ module Lister
     resp = Net::HTTP.get_response( URI.parse(url))
     doc = REXML::Document.new( resp.body )
     versions = []
+
     XPath.each( doc, "//data/artifact" ) do |r|
       versions << r.elements["version"].text
     end
@@ -19,7 +21,20 @@ module Lister
 
   # Use a command to generate the list of versions
   def from_command(command)
-    system(command).join(' ')
+    run_safely(command).split(' ').uniq
   end
 
+  def run_safely(command)
+    result = ''
+    exit_code = false
+    begin
+      Open3.popen2e(command) do |stdin, stdout, wait_thr|
+        result = stdout.read
+        exit_code = wait_thr.value.success?
+      end
+    rescue Errno::ENOENT
+      exit_code = false
+    end
+    exit_code ? result : 'Failure'
+  end
 end

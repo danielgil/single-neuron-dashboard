@@ -1,4 +1,6 @@
 require 'snd/lister'
+require 'open3'
+
 class Application
   include Lister
   attr_reader :name
@@ -34,10 +36,9 @@ class Application
   def list
     return 'Command not available' if @list_cmd.nil?
     command = @list_cmd.split(',')
-    p command.inspect
     return from_nexus(command[1], command[2], command[3]) if command[0] == 'nexus'
     return from_command(command[1]) if command[0] == 'command'
-
+    []
   end
 
   def deploy
@@ -45,8 +46,7 @@ class Application
   end
 
   def version
-    'Command not available' if @version_cmd.nil?
+    return 'Command not available' if @version_cmd.nil?
+    run_safely(@version_cmd)
   end
-
-
 end
