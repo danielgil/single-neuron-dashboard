@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sinatra/json'
+require 'sinatra/streaming'
 require 'snd/controller'
 
 
@@ -7,6 +8,7 @@ require 'snd/controller'
 set :root, Dir.pwd
 set :public_folder, File.join(settings.root, 'public')
 set :controller, Controller.new
+
 
 get '/' do
   File.read('public/index.html')
@@ -51,11 +53,21 @@ get '/deploy/:application' do
 end
 
 get '/log/:application' do
-  "test"
+  stream(:keep_open) do |out|
+    list << out
+    out.callback { list.delete out }
+    out.errback do
+      logger.warn "lost connection"
+      list.delete out
+    end
+  end
 end
 
 get '/export/:application' do
-  "test"
+  app = settings.controller.apps[params[:application]]
+  return json :log => 'App not found' if app.nil?
+  return json :log => 'Log file not found' unless File.file?(app.log_file) and File.stat(app.log_file).readable?
+  send_file app.log_file, :filename => File.basename(app.log_file), :type => 'text/plain'
 end
 
 not_found do

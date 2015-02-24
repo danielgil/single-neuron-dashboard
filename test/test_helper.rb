@@ -6,6 +6,7 @@ require 'fakeweb'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'json_spec'
+require 'faker'
 
 require_relative '../lib/snd'
 
@@ -35,5 +36,7 @@ module Snd
       end
       app.settings.controller = Controller.new('conf/test.yaml')
     end
+
+
   end
 end

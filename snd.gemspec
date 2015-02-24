@@ -31,4 +31,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('minitest')
   s.add_development_dependency('json')
   s.add_development_dependency('json_spec')
+  s.add_development_dependency('faker')
 end

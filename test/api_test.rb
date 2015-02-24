@@ -117,4 +117,23 @@ class ApiTest < Snd::Test
     get '/version/test-app'
     assert_equal last_json, {'version' => 'Failure'}.to_json
   end
+
+  def test_export
+    to_test_file({'test-app' => {'log_file' => 'conf/test.log'}})
+
+    File.delete('conf/test.log') if File.exist?('conf/test.log')
+    get '/export/test-app'
+    assert_equal last_json, {'log' => 'Log file not found'}.to_json
+
+    File.open('conf/test.log', 'w+') do |file|
+      100.times do
+        file.write "#{Faker::Lorem.sentence}\n"
+      end
+    end
+    get '/export/test-app'
+    assert_equal last_response['Content-Type'], 'text/plain;charset=utf-8'
+    assert_equal last_response['Content-Disposition'], 'attachment; filename="test.log"'
+    File.delete('conf/test.log') if File.exist?('conf/test.log')
+  end
 end
+
