@@ -4,11 +4,12 @@ require 'open3'
 class Application
   include Lister
   attr_reader :name
-  attr_accessor :status_cmd, :start_cmd, :stop_cmd, :list_cmd, :deploy_cmd, :version_cmd, :log_file
+  attr_accessor :status_cmd, :start_cmd, :stop_cmd, :list_cmd, :deploy_cmd, :version_cmd, :log_file, :log_clients
 
   def initialize(name)
     @name = name
     @lister = nil
+    @log_clients = []
   end
 
   def status

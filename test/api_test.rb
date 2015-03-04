@@ -135,5 +135,18 @@ class ApiTest < Snd::Test
     assert_equal last_response['Content-Disposition'], 'attachment; filename="test.log"'
     File.delete('conf/test.log') if File.exist?('conf/test.log')
   end
+
+  def test_log
+    to_test_file({'test-app' => {'log_file' => 'conf/test.log'}})
+    File.delete('conf/test.log') if File.exist?('conf/test.log')
+    File.open('conf/test.log', 'w+') do |file|
+      100.times do
+        file.write "#{Faker::Lorem.sentence}\n"
+      end
+    end
+    get '/log/test-app'
+
+    File.delete('conf/test.log') if File.exist?('conf/test.log')
+  end
 end
 

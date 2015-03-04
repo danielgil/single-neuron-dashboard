@@ -52,14 +52,20 @@ get '/deploy/:application' do
   "test"
 end
 
-get '/log/:application' do
+get '/log/:application', provides: 'text/event-stream' do
   stream(:keep_open) do |out|
-    list << out
-    out.callback { list.delete out }
-    out.errback do
-      logger.warn "lost connection"
-      list.delete out
-    end
+    app = settings.controller.apps[params[:application]]
+    app.log_clients << out
+    out.callback { app.log_clients.delete out }
+    out.errback { app.log_clients.delete out }
+  end
+end
+
+# TODO: remove this and create a thread or use EM to stream the log file
+get '/broadcast/:application' do
+  app = settings.controller.apps[params[:application]]
+  app.log_clients.each do |client|
+    client << "test + #{rand}"
   end
 end
 
