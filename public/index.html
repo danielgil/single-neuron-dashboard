@@ -29,7 +29,7 @@
     <div class="row">
         <div class="">
 
-            <div class="app-item  app-item--{{app.status}}"
+            <div class="app-item  app-item--{{app.status}}  app-item--running"
                  ng-click="selectApp(app.name)"
                  ng-repeat="app in apps"
                  title="Click to select app">
@@ -48,11 +48,9 @@
 
                     </div>
 
-                    <h3>{{app.name}}
-                        <small ng-show="app.options.version">Version 4.28.0</small>
-                    </h3>
-
-                    <span>Definitions: master</span>
+                    <h3>{{app.name}}</h3>
+                    <small ng-show="app.options.version">Version: 4.28.0</small><br/>
+                    <small>Def version: master</small>
                 </div>
             </div>
 
@@ -74,11 +72,9 @@
 
                 </div>
 
-                <h3>{{currentApp.name}}
-                    <small ng-show="currentApp.options.version && currentApp.version">{{currentApp.version}}</small>
-                </h3>
-
-                <span>Definitions: master</span>
+                <h3>{{currentApp.name}}</h3>
+                <small ng-show="currentApp.options.version && currentApp.version">Version: {{currentApp.version}}</small><br/>
+                <small>Def version: master</small>
             </div>
             <div class="app-item-controls">
                 <button type="button"
@@ -95,7 +91,7 @@
                 </button>
 
                 <br/>
-                <select class="form-control"
+                <select class="form-control  app-item-select"
                         ng-model="currentApp.version"
                         ng-show="currentApp.options.list"
                         ng-options="v as v for v in currentApp.versionList">
@@ -118,7 +114,17 @@
 
             <div class="app-item-logs">
                 <h4>Logs de la applicacion</h4>
-                <div class="logs-content"></div>
+                <div class="app-item-logs-content">
+                    127.0.0.1 - - [10/Mar/2015:08:46:31 +0100] "GET / HTTP/1.1" 200 5100 0.0009 <br/>
+                    127.0.0.1 - - [10/Mar/2015:08:46:31 +0100] "GET /list HTTP/1.1" 200 379 0.0007   <br/>
+                    127.0.0.1 - - [10/Mar/2015:08:46:32 +0100] "GET /status/first-app HTTP/1.1" 200 20 0.0029   <br/>
+                    127.0.0.1 - - [10/Mar/2015:08:46:32 +0100] "GET /list/first-app HTTP/1.1" 200 44 0.0047  <br/>
+                    127.0.0.1 - - [10/Mar/2015:08:46:47 +0100] "GET / HTTP/1.1" 200 5100 0.0007   <br/>
+                    127.0.0.1 - - [10/Mar/2015:08:46:47 +0100] "GET /list HTTP/1.1" 200 379 0.0008    <br/>
+                    127.0.0.1 - - [10/Mar/2015:08:46:48 +0100] "GET /status/second-app HTTP/1.1" 200 20 0.0033  <br/>
+                    127.0.0.1 - - [10/Mar/2015:08:46:48 +0100] "GET /list/second-app HTTP/1.1" 200 30 0.0054   <br/>
+
+                </div>
             </div>
         </div>
 

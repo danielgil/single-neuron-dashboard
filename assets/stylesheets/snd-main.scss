@@ -2,7 +2,7 @@
 	float: left;
 	width: 31%;
 	min-height: 125px;
-	padding: 2%;
+	padding: 1%;
 	margin: 1% 1%;
 	background-color: #F5F5F5;
 	border: 1px solid rgba(0, 0, 0, 0.05);
@@ -59,6 +59,12 @@
 		display: block;
 		clear: both;
 		width: 97%;
+
+		&:hover{
+			background-color: #F5F5F5;
+			border: 1px solid rgba(0, 0, 0, 0.05);
+			cursor: default;
+		}
 	}
 }
 
@@ -79,13 +85,21 @@
 	margin-bottom: 5px;
 
 	h3{
-		margin-top: 0;
+		margin: 0;
 	}
+
+	small{
+
+	}
+
 	span{
 		display: block;
 	}
 }
 .app-item-controls{
+	width: 48%;
+	float: left;
+
 	button{
 		min-width: 60px;
 		margin-bottom: 5px;
@@ -96,10 +110,23 @@
 	}
 	select{
 		width: 50%;
+		max-width: 250px;
 		display: inline-block;
 
 		& + button{
 			width: 30%;
+			max-width: 150px;
 		}
+	}
+}
+
+.app-item-logs{
+	float: left;
+	width: 49%;
+	padding-left: 2%;
+	border-left: 1px solid rgba(0, 0, 0, 0.05);
+
+	.app-item-logs-content{
+		font-size: 1.1rem;
 	}
 }
