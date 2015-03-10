@@ -25,11 +25,11 @@
 </head>
 <body>
 
-<div class="container-fluid" ng-controller="ListController" ng-init="getList()">
+<div class="container-fluid" ng-controller="ListController" ng-init="init()">
     <div class="row">
         <div class="">
 
-            <div class="app-item  app-item--{{app.status}}  app-item--running"
+            <div class="app-item  app-item--{{app.status}}"
                  ng-click="selectApp(app.name)"
                  ng-repeat="app in apps"
                  title="Click to select app">

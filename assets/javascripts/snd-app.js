@@ -9,16 +9,31 @@ sndapp.controller('ListController', ['$scope', '$http', function ($scope, $http)
         enabled: false
     };
 
-    $scope.selectApp = function (appName){
+    $scope.selectApp = function (appName) {
         var appObject = findAppByName($scope.apps, appName);
         $scope.currentApp.name = appName;
         $scope.currentApp.enabled = true;
         $scope.currentApp.version = '3.0';
         $scope.currentApp.options = appObject.options;
-        $scope.getAppStatus(appName);
+        $scope.getAppStatus($scope.currentApp);
         //$scope.getAppVersion(appName);
         $scope.getAppVersionList(appName);
-    },
+    };
+
+    $scope.init = function () {
+        this.getList();
+        this.watchAppStatus();
+    };
+
+    $scope.watchAppStatus = function () {
+        setInterval(function(){
+            for(i= 0; i< $scope.apps.length; i++){
+                var $currentApp = $scope.apps[i];
+                console.log('Getting status of ' + $currentApp.name);
+                $scope.getAppStatus($currentApp);
+            }
+        },5000);
+    };
 
     $scope.getList = function () {
         $http.get('/list')
@@ -28,6 +43,7 @@ sndapp.controller('ListController', ['$scope', '$http', function ($scope, $http)
                 alert('Error getting list of apps...');
             });
     };
+
     $scope.startApp = function (appName) {
         $http.get('/start/' + appName)
             .success(function (data) {
@@ -39,17 +55,15 @@ sndapp.controller('ListController', ['$scope', '$http', function ($scope, $http)
     $scope.stopApp = function (appName) {
         $http.get('/stop/' + appName)
             .success(function (data) {
-                console.log('Getting status');
                 $scope.getAppStatus(appName);
             }).error(function (data) {
                 $scope.getAppStatus(appName);
             });
     };
-    $scope.getAppStatus = function (appName) {
-        $http.get('/status/' + appName)
+    $scope.getAppStatus = function (currentApp) {
+        $http.get('/status/' + currentApp.name)
             .success(function (data) {
-                console.log('Getting status');
-                $scope.currentApp.status = getCurrentStatus(data);
+                currentApp.status = getCurrentStatus(data);
             }).error(function (data) {
                 alert('Error getting status app...');
             });
@@ -99,34 +113,37 @@ sndapp.controller('ListController', ['$scope', '$http', function ($scope, $http)
 }]);
 
 
-
-function changeCurrentAppStatus(data, apps, appName){
+function changeCurrentAppStatus(data, apps, appName) {
     var status = getCurrentStatus(data);                //we transform the message in a proper status class-name
     var appObject = findAppByName(apps, appName);//we look for the app object with that name
     appObject.status = status;                       //we modify the status value of that app
 }
 
-function getCurrentVersion(data, apps, appName){
+function getCurrentVersion(data, apps, appName) {
     var appObject = findAppByName(apps, appName);//we look for the app object with that name
     appObject.version = data;                       //we modify the status value of that app
 }
 
-function getListOfVersions(data, apps, appName){
+function getListOfVersions(data, apps, appName) {
     var appObject = findAppByName(apps, appName);//we look for the app object with that name
     appObject.versionList = data;
 }
 
-function findAppByName(array, name){
-    var result = $.grep(array, function(e){ return e.name == name; });
+function findAppByName(array, name) {
+    var result = $.grep(array, function (e) {
+        return e.name == name;
+    });
 
     return (result.length > 0) ? result[0] : undefined;
 }
-function getCurrentStatus(status){
+function getCurrentStatus(status) {
     var result;
-    switch (status.status){
-        case 'Running': result = 'running';
+    switch (status.status) {
+        case 'Running':
+            result = 'running';
             break;
-        case 'Stopped': result = 'stopped';
+        case 'Stopped':
+            result = 'stopped';
             break;
     }
 
