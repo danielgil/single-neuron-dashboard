@@ -87,6 +87,7 @@ sndapp.controller('ListController', ['$scope', '$http', function ($scope, $http)
             });
     };
     $scope.exportApp = function (appName) {
+        http://stackoverflow.com/questions/24080018/download-file-from-a-asp-net-web-api-method-using-angularjs
         $http.get('/export/' + appName)
             .success(function (data) {
                 alert('Exporting app ' + appName);
