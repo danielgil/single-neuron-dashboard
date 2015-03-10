@@ -19,6 +19,12 @@ class Controller
       @apps[key].deploy_cmd = value['deploy_cmd']   if value.has_key? 'deploy_cmd'
       @apps[key].version_cmd = value['version_cmd'] if value.has_key? 'version_cmd'
       @apps[key].log_file = value['log_file']       if value.has_key? 'log_file'
+
+      # Fill initial state
+      @apps[key].current_version = @apps[key].version
+      @apps[key].current_status = @apps[key].status
+      @apps[key].available_versions = @apps[key].list
+
     end
     list_apps
    end
@@ -28,6 +34,9 @@ class Controller
     @apps.each do |name,app|
       @list << {}
       @list[-1]['name'] = name
+      @list[-1]['current_version'] = app.current_version
+      @list[-1]['current_status'] = app.current_status
+      @list[-1]['available_versions'] = app.available_versions
       @list[-1]['options'] = {}
       @list[-1]['options']['start'] = !app.start_cmd.nil?
       @list[-1]['options']['stop'] = !app.stop_cmd.nil?
