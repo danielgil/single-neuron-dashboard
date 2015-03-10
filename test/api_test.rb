@@ -10,65 +10,65 @@ class ApiTest < Snd::Test
   def test_status
     to_test_file({ 'test-app' => {}})
     get '/status/test-app'
-    assert_equal last_json, {'status' => 'Command not available'}.to_json
+    assert_equal last_json, {'status' => 'command not available'}.to_json
 
     to_test_file({ 'test-app' => { 'status_cmd'  => ':' }}) # Returns zero
     get '/status/test-app'
-    assert_equal last_json, {'status' => 'Running'}.to_json
+    assert_equal last_json, {'status' => 'running'}.to_json
 
     to_test_file({ 'test-app' => { 'status_cmd'  => 'notacommand' }}) # Returns non-zero
     get '/status/test-app'
-    assert_equal last_json, {'status' => 'Stopped'}.to_json
+    assert_equal last_json, {'status' => 'stopped'}.to_json
   end
 
   def test_start
     to_test_file({ 'test-app' => {}})
     get '/start/test-app'
-    assert_equal last_json, {'status' => 'Command not available'}.to_json
+    assert_equal last_json, {'status' => 'command not available'}.to_json
 
     to_test_file({ 'test-app' => { 'status_cmd'  => ':',
                                    'start_cmd'   => ':'}})
     get '/start/test-app'
-    assert_equal last_json, {'status' => 'Application already running'}.to_json
+    assert_equal last_json, {'status' => 'application already running'}.to_json
 
     to_test_file({ 'test-app' => { 'status_cmd'  => 'notacommand',
                                    'start_cmd'   => ':'}})
     get '/start/test-app'
-    assert_equal last_json, {'status' => 'Success'}.to_json
+    assert_equal last_json, {'status' => 'success'}.to_json
 
     to_test_file({ 'test-app' => { 'status_cmd'  => 'notacommand',
                                    'start_cmd'   => 'notacommand'}})
     get '/start/test-app'
-    assert_equal last_json, {'status' => 'Failure'}.to_json
+    assert_equal last_json, {'status' => 'failure'}.to_json
   end
 
   def test_stop
     to_test_file({ 'test-app' => {}})
     get '/stop/test-app'
-    assert_equal last_json, {'status' => 'Command not available'}.to_json
+    assert_equal last_json, {'status' => 'command not available'}.to_json
 
-    to_test_file({ 'test-app' => { 'status_cmd'  => 'notacommand',
+    to_test_file({ 'test-app' => { 'status_cmd' => 'notacommand',
                                    'stop_cmd'   => ':'}})
     get '/stop/test-app'
-    assert_equal last_json, {'status' => 'Application already stopped'}.to_json
+    assert_equal last_json, {'status' => 'application already stopped'}.to_json
 
-    to_test_file({ 'test-app' => { 'status_cmd'  => ':',
+    to_test_file({ 'test-app' => { 'status_cmd' => ':',
                                    'stop_cmd'   => ':'}})
     get '/stop/test-app'
-    assert_equal last_json, {'status' => 'Success'}.to_json
+    assert_equal last_json, {'status' => 'success'}.to_json
 
     to_test_file({ 'test-app' => { 'status_cmd'  => ':',
                                    'stop_cmd'    => 'notacommand'}})
     get '/stop/test-app'
-    assert_equal last_json, {'status' => 'Failure'}.to_json
+    assert_equal last_json, {'status' => 'failure'}.to_json
   end
 
   def test_list
-      testdata = {  'test-app1' => { 'start_cmd'   => 'service tomcat start',
+      testdata = {  'test-app1' => { 'start_cmd' => 'service tomcat start',
                                    'stop_cmd'    => 'service tomcat stop',
                                    'log_file'    => '/opt/tomcat/logs/catalina.out',
                     },
-                    'test-app2' => { 'start_cmd'   => 'service tomcat start',
+                    'test-app2' => { 'start_cmd' => 'service tomcat start',
                                    'status_cmd'  => 'service tomcat status',
                                    'list_cmd'    => 'wget http://localhost:8080',
                                    'deploy_cmd'  => 'puppet apply /tmp/tomcat.pp',
@@ -77,6 +77,9 @@ class ApiTest < Snd::Test
       get '/list'
 
       expected = [{'name'    =>  'test-app1',
+                  'current_version'    => 'command not available',
+                  'current_status'     => 'command not available',
+                  'available_versions' => 'command not available',
                   'options'  => {'start'   => true,
                                  'stop'    => true,
                                  'status'  => false,
@@ -86,6 +89,9 @@ class ApiTest < Snd::Test
                                  'log'     => true}
                   },
                   {'name'    =>  'test-app2',
+                   'current_version'    => 'command not available',
+                   'current_status'     => 'stopped',
+                   'available_versions' => [],
                    'options' => {'start'   => true,
                                  'stop'    => false,
                                  'status'  => true,
@@ -107,7 +113,7 @@ class ApiTest < Snd::Test
   def test_version
     to_test_file({ 'test-app' => {}})
     get '/version/test-app'
-    assert_equal last_json, {'version' => 'Command not available'}.to_json
+    assert_equal last_json, {'version' => 'command not available'}.to_json
 
     to_test_file({'test-app' => {'version_cmd' => 'echo -n "4.10.0-SNAPSHOT"'}})
     get '/version/test-app'
@@ -115,7 +121,7 @@ class ApiTest < Snd::Test
 
     to_test_file({'test-app' => {'version_cmd' => 'notacommand'}})
     get '/version/test-app'
-    assert_equal last_json, {'version' => 'Failure'}.to_json
+    assert_equal last_json, {'version' => 'failure'}.to_json
   end
 
   def test_export
@@ -123,7 +129,7 @@ class ApiTest < Snd::Test
 
     File.delete('conf/test.log') if File.exist?('conf/test.log')
     get '/export/test-app'
-    assert_equal last_json, {'log' => 'Log file not found'}.to_json
+    assert_equal last_json, {'log' => 'log file not found'}.to_json
 
     File.open('conf/test.log', 'w+') do |file|
       100.times do
