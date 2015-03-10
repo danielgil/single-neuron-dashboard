@@ -17,29 +17,29 @@ class Application
   end
 
   def status
-    return 'Command not available' if @status_cmd.nil?
-    system(@status_cmd) ? 'Running' : 'Stopped'
+    return 'command not available' if @status_cmd.nil?
+    system(@status_cmd) ? 'running' : 'stopped'
   end
 
   def start
-    return 'Command not available' if @start_cmd.nil?
+    return 'command not available' if @start_cmd.nil?
     unless @status_cmd.nil?
-      return 'Application already running' if status == 'Running'
+      return 'application already running' if status == 'running'
     end
 
-    system(@start_cmd) ? 'Success' : 'Failure'
+    system(@start_cmd) ? 'success' : 'failure'
   end
 
   def stop
-    return 'Command not available' if @stop_cmd.nil?
+    return 'command not available' if @stop_cmd.nil?
     unless @status_cmd.nil?
-      return 'Application already stopped' if status == 'Stopped'
+      return 'application already stopped' if status == 'stopped'
     end
-    system(@stop_cmd) ? 'Success' : 'Failure'
+    system(@stop_cmd) ? 'success' : 'failure'
   end
 
   def list
-    return 'Command not available' if @list_cmd.nil?
+    return 'command not available' if @list_cmd.nil?
     command = @list_cmd.split(',')
     return from_nexus(command[1], command[2], command[3]) if command[0] == 'nexus'
     return from_command(command[1]) if command[0] == 'command'
@@ -47,11 +47,11 @@ class Application
   end
 
   def deploy
-    'Command not available' if @deploy_cmd.nil?
+    'command not available' if @deploy_cmd.nil?
   end
 
   def version
-    return 'Command not available' if @version_cmd.nil?
+    return 'command not available' if @version_cmd.nil?
     run_safely(@version_cmd)
   end
 end

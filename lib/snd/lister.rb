@@ -35,6 +35,6 @@ module Lister
     rescue Errno::ENOENT
       exit_code = false
     end
-    exit_code ? result : 'Failure'
+    exit_code ? result : 'failure'
   end
 end
