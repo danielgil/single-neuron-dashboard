@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="sndapp">
+<html lang="en" ng-app="snd">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,116 +19,26 @@
     <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
     <![endif]-->
     <script src="/assets/vendor/angular.min.js"></script>
+    <script src="/assets/vendor/angular-resource.min.js"></script>
     <script src="/assets/vendor/jquery-1.10.2.min.js"></script>
     <script src="/assets/snd-app.js"></script>
+    <script src="/assets/snd-services.js"></script>
+    <script src="/assets/snd-directives.js"></script>
 
 </head>
 <body>
 
-<div class="container-fluid" ng-controller="ListController" ng-init="init()">
+<div class="container-fluid">
+
     <div class="row">
-        <div class="">
+        <div>
+            <app-item ng-controller="AppListController as appListCtrl" ng-init="init()"></app-item>
 
-            <div class="app-item  app-item--{{app.status}}"
-                 ng-click="selectApp(app.name)"
-                 ng-repeat="app in apps"
-                 title="Click to select app">
-                <div class="app-item-header">
-
-
-                    <div class="app-item-status app-item-status--{{app.currentStatus}}"
-                         ng-show="app.options.status"
-                         ng-click="getAppStatus(app.name)">
-
-                        <i class="fa fa-spinner  status--loading"></i>
-                        <i class="fa fa-cog  fa-spin  status--started"></i>
-                        <i class="fa fa-stop  status--stopped"></i>
-                        <i class="fa fa-remove  status--error"></i>
-                        <em>{{app.status}}</em>
-
-                    </div>
-
-                    <h3>{{app.name}}</h3>
-                    <small ng-show="app.options.version">Version: 4.28.0</small><br/>
-                    <small>Def version: master</small>
-                </div>
-            </div>
 
         </div>
-
-        <div class="app-item  app-item--selected  app-item--{{currentApp.status}}"
-             ng-show="currentApp.enabled">
-            <div class="app-item-header">
-
-                <div class="app-item-status"
-                     ng-show="currentApp.status"
-                     ng-click="getAppStatus(currentApp.name)">
-
-                    <i class="fa fa-spinner  status--loading"></i>
-                    <i class="fa fa-cog  fa-spin  status--started"></i>
-                    <i class="fa fa-stop  status--stopped"></i>
-                    <i class="fa fa-remove  status--error"></i>
-                    <em>{{currentApp.status}}</em>
-
-                </div>
-
-                <h3>{{currentApp.name}}</h3>
-                <small ng-show="currentApp.options.version && currentApp.version">Version: {{currentApp.version}}</small><br/>
-                <small>Def version: master</small>
-            </div>
-            <div class="app-item-controls">
-                <button type="button"
-                        ng-show="currentApp.options.start && currentApp.status != 'running'"
-                        ng-click="startApp(currentApp.name)"
-                        class="btn  btn-sm  btn-success">
-                    <i class="fa fa-play"></i> Start
-                </button>
-                <button type="button"
-                        ng-show="currentApp.options.stop  && currentApp.status == 'running'"
-                        ng-click="stopApp(currentApp.name)"
-                        class="btn  btn-sm  btn-danger">
-                    <i class="fa fa-stop"></i>Stop
-                </button>
-
-                <br/>
-                <select class="form-control  app-item-select"
-                        ng-model="currentApp.version"
-                        ng-show="currentApp.options.list"
-                        ng-options="v as v for v in currentApp.versionList">
-                </select>
-
-                <button type="button"
-                        ng-show="currentApp.options.deploy"
-                        ng-click="deployApp(currentApp.name)"
-                        class="btn  btn-sm  btn-primary">
-                    <i class="fa fa-cog"></i>Deploy
-                </button>
-                <br/>
-                <button type="button"
-                        ng-show="currentApp.options.log && currentApp.status == 'running'"
-                        ng-click="exportApp(currentApp.name)"
-                        class="btn  btn-sm  btn-primary">
-                    <i class="fa fa-external-link"></i>Export Log
-                </button>
-            </div>
-
-            <div class="app-item-logs">
-                <h4>Logs de la applicacion</h4>
-                <div class="app-item-logs-content">
-                    127.0.0.1 - - [10/Mar/2015:08:46:31 +0100] "GET / HTTP/1.1" 200 5100 0.0009 <br/>
-                    127.0.0.1 - - [10/Mar/2015:08:46:31 +0100] "GET /list HTTP/1.1" 200 379 0.0007   <br/>
-                    127.0.0.1 - - [10/Mar/2015:08:46:32 +0100] "GET /status/first-app HTTP/1.1" 200 20 0.0029   <br/>
-                    127.0.0.1 - - [10/Mar/2015:08:46:32 +0100] "GET /list/first-app HTTP/1.1" 200 44 0.0047  <br/>
-                    127.0.0.1 - - [10/Mar/2015:08:46:47 +0100] "GET / HTTP/1.1" 200 5100 0.0007   <br/>
-                    127.0.0.1 - - [10/Mar/2015:08:46:47 +0100] "GET /list HTTP/1.1" 200 379 0.0008    <br/>
-                    127.0.0.1 - - [10/Mar/2015:08:46:48 +0100] "GET /status/second-app HTTP/1.1" 200 20 0.0033  <br/>
-                    127.0.0.1 - - [10/Mar/2015:08:46:48 +0100] "GET /list/second-app HTTP/1.1" 200 30 0.0054   <br/>
-
-                </div>
-            </div>
+        <div ng-controller="AppDetailController as appDetailCtrl">
+            <app-item-selected></app-item-selected>
         </div>
-
-
     </div>
 
 </div>

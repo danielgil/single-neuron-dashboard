@@ -1,152 +1,144 @@
-var sndapp = angular.module('sndapp', []);
+(function () {
+    'use strict';
+    angular
+        .module('snd', ['snd.services', 'snd.directives'])
+        .controller('AppListController', ['$rootScope', '$log', '$interval', 'SndService', AppListController])
+        .controller('AppDetailController', ['$rootScope', '$log', 'SndService', AppDetailController]);
 
-sndapp.controller('ListController', ['$scope', '$http', function ($scope, $http) {
-    $scope.currentApp = {
-        name: undefined,
-        status: undefined,
-        version: undefined,
-        versionList: undefined,
-        enabled: false
-    };
+    /**
+     *
+     * @param $rootScope
+     * @param $scope
+     * @param $http
+     * @param $log
+     * @param $interval
+     * @param AppService
+     * @constructor
+     */
+    function AppListController($rootScope, $log, $interval, SndService) {
+        /* jshint validthis: true */
+        var vm = this;
+        //Global variables
+        $rootScope.currentApp = {};//selected app
+        $rootScope.apps = {};//list of apps
 
-    $scope.selectApp = function (appName) {
-        var appObject = findAppByName($scope.apps, appName);
-        $scope.currentApp.name = appName;
-        $scope.currentApp.enabled = true;
-        $scope.currentApp.version = '3.0';
-        $scope.currentApp.options = appObject.options;
-        $scope.getAppStatus($scope.currentApp);
-        //$scope.getAppVersion(appName);
-        $scope.getAppVersionList(appName);
-    };
+        SndService.getAppList().then(function(data){
+            $rootScope.apps = data.data;
+        });
 
-    $scope.init = function () {
-        this.getList();
-        this.watchAppStatus();
-    };
+        vm.selectApp = function (appName) {
+            $rootScope.currentApp = findAppByName($rootScope.apps, appName);
+            $rootScope.currentApp.selected = true;
+        };
 
-    $scope.watchAppStatus = function () {
-        setInterval(function(){
-            for(i= 0; i< $scope.apps.length; i++){
-                var $currentApp = $scope.apps[i];
-                console.log('Getting status of ' + $currentApp.name);
-                $scope.getAppStatus($currentApp);
+        vm.init = function () {
+            this.setWatchAppStatus();
+        };
+
+        vm.setWatchAppStatus = function () {
+            $interval(function () {
+                //$scope.watchAppStatus();
+            }, 2000);
+        };
+
+        vm.watchAppStatus = function () {
+            for (count = 0; count <= 2; count++) {
+
             }
-        },5000);
-    };
+        };
 
-    $scope.getList = function () {
-        $http.get('/list')
-            .success(function (data) {
-                $scope.apps = data;
-            }).error(function (data) {
-                alert('Error getting list of apps...');
-            });
-    };
-
-    $scope.startApp = function (appName) {
-        $http.get('/start/' + appName)
-            .success(function (data) {
-                $scope.getAppStatus(appName);
-            }).error(function (data) {
-                $scope.getAppStatus(appName);
-            });
-    };
-    $scope.stopApp = function (appName) {
-        $http.get('/stop/' + appName)
-            .success(function (data) {
-                $scope.getAppStatus(appName);
-            }).error(function (data) {
-                $scope.getAppStatus(appName);
-            });
-    };
-    $scope.getAppStatus = function (currentApp) {
-        $http.get('/status/' + currentApp.name)
-            .success(function (data) {
-                currentApp.status = getCurrentStatus(data);
-            }).error(function (data) {
-                alert('Error getting status app...');
-            });
-    };
-    $scope.getAppVersion = function (appName) {
-        $http.get('/version/' + appName)
-            .success(function (data) {
-                $scope.currentApp.version = data.version;
-            }).error(function (data) {
-                alert('Error getting version of app...');
-            });
-    };
-    $scope.getAppVersionList = function (appName) {
-        $http.get('/list/' + appName)
-            .success(function (data) {
-                $scope.currentApp.versionList = data.versions;
-            }).error(function (data) {
-                alert('Error getting list of versions of app...');
-            });
-    };
-    $scope.deployApp = function (appName) {
-        $http.get('/deploy/' + appName)
-            .success(function (data) {
-                alert('Deploying app ' + appName);
-            }).error(function (data) {
-                alert('Error deploying app...');
-            });
-    };
-    $scope.logApp = function (appName) {
-        $http.get('/log/' + appName)
-            .success(function (data) {
-                alert('Logging app ' + appName);
-            }).error(function (data) {
-                alert('Error Logging app...');
-            });
-    };
-    $scope.exportApp = function (appName) {
-        http://stackoverflow.com/questions/24080018/download-file-from-a-asp-net-web-api-method-using-angularjs
-        $http.get('/export/' + appName)
-            .success(function (data) {
-                alert('Exporting app ' + appName);
-            }).error(function (data) {
-                alert('Error Exporting app...');
-            });
-    };
-
-
-}]);
-
-
-function changeCurrentAppStatus(data, apps, appName) {
-    var status = getCurrentStatus(data);                //we transform the message in a proper status class-name
-    var appObject = findAppByName(apps, appName);//we look for the app object with that name
-    appObject.status = status;                       //we modify the status value of that app
-}
-
-function getCurrentVersion(data, apps, appName) {
-    var appObject = findAppByName(apps, appName);//we look for the app object with that name
-    appObject.version = data;                       //we modify the status value of that app
-}
-
-function getListOfVersions(data, apps, appName) {
-    var appObject = findAppByName(apps, appName);//we look for the app object with that name
-    appObject.versionList = data;
-}
-
-function findAppByName(array, name) {
-    var result = $.grep(array, function (e) {
-        return e.name == name;
-    });
-
-    return (result.length > 0) ? result[0] : undefined;
-}
-function getCurrentStatus(status) {
-    var result;
-    switch (status.status) {
-        case 'Running':
-            result = 'running';
-            break;
-        case 'Stopped':
-            result = 'stopped';
-            break;
+        vm.startFirstApp = function(appName){
+            SndService.startApp(appName);
+        }
     }
 
-    return result;
-}
+    /**
+     *
+     * @param $rootScope
+     * @param $scope
+     * @param $http
+     * @param $log
+     * @param AppService
+     * @constructor
+     */
+    function AppDetailController($rootScope, $log, SndService) {
+        this.startApp = function (appName) {
+            SndService.startApp(appName).then(function (data){
+                $log.log('Starting app ' + appName + ': ' + data.data.status);
+                $rootScope.currentApp.current_status = 'running';
+            });
+        };
+        this.stopApp = function (appName) {
+            SndService.stopApp(appName).then(function (data){
+                $log.log('Stopping app ' + appName + ': ' + data.data.status);
+                $rootScope.currentApp.current_status = 'stopped';
+            });
+        };
+        this.getAppStatus = function (appName) {
+            SndService.getAppStatus(appName).then(function (data){
+                $log.log('Getting status of app ' + appName + ': ' + data.data.status);
+                $rootScope.currentApp.current_status = getStatusLabel(data.data.status);
+            });
+        };
+        this.getAppVersion = function () {
+            SndService.getAppVersion(appName).then(function (data){
+                $log.log('Getting version of app ' + appName + ': ' + data.data.status);
+                $rootScope.currentApp.current_version = data.data.version;
+            });
+        };
+        this.getAppVersionList = function () {
+            SndService.getAppVersionList(appName).then(function (data){
+                $log.log('Getting version list of app ' + appName + ': ' + data.data.status);
+                $rootScope.currentApp.available_versions = data.data.available_versions;
+            });
+        };
+        this.deployApp = function () {
+            SndService.deployApp(appName).then(function (data){
+                $log.log('Deploying app ' + appName + ': ');
+            });
+        };
+        this.logApp = function () {
+            SndService.getAppVersionList(appName).then(function (data){
+                $log.log('Getting log of app ' + appName + ': ');
+            });
+        };
+        this.exportApp = function () {
+            SndService.exportAppLog(appName).then(function (data){
+                $log.log('Explorting log of app ' + appName + ': ');
+            });
+        };
+    }
+
+    /**
+     *
+     * @param array
+     * @param name
+     * @returns {*}
+     */
+    function findAppByName(array, name) {
+        var result = $.grep(array, function (e) {
+            return e.name == name;
+        });
+
+        return (result.length > 0) ? result[0] : undefined;
+    }
+
+    /**
+     *
+     * @param label
+     * @returns {*}
+     */
+    function getStatusLabel(label) {
+        switch (label.toLowerCase()) {
+            case 'application already running':
+                return 'running';
+            case 'command not available':
+                return undefined;
+            case 'success':
+                return 'running';
+            default:
+                return label;
+        }
+    }
+
+})();

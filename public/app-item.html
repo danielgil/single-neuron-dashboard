@@ -1,0 +1,29 @@
+<div class="app-item  app-item--{{app.current_status}}"
+     ng-click="appListCtrl.selectApp(app.name)"
+     ng-repeat="app in apps"
+     title="Click to select app">
+
+    <div class="app-item-header">
+
+        <div class="app-item-status"
+             ng-show="app.options.status">
+
+            <i class="fa fa-spinner  status--loading"></i>
+            <i class="fa fa-cog  fa-spin  status--started"></i>
+            <i class="fa fa-stop  status--stopped"></i>
+            <i class="fa fa-remove  status--error"></i>
+            <em>{{app.current_status}}</em>
+
+        </div>
+
+        <h3>{{app.name}}</h3>
+        <small ng-show="app.options.version">Version: {{app.current_version}}</small>
+        <br/>
+        <small>Def version: master</small>
+
+    </div>
+
+</div>
+
+<button type="button" ng-click="appListCtrl.watchAppStatus('first-app', 'stopped')">Change</button>
+<button type="button" ng-click="appListCtrl.startFirstApp('first-app')">Start 1</button>

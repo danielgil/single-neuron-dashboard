@@ -1,0 +1,79 @@
+<div class="app-item  app-item--selected  app-item--{{currentApp.current_status}}"
+     ng-show="currentApp.selected">
+
+    <div class="app-item-header">
+
+        <div class="app-item-status"
+             ng-show="currentApp.current_status">
+
+            <i class="fa fa-spinner  status--loading"></i>
+            <i class="fa fa-cog  fa-spin  status--started"></i>
+            <i class="fa fa-stop  status--stopped"></i>
+            <i class="fa fa-remove  status--error"></i>
+            <em>{{currentApp.current_status}}</em>
+
+        </div>
+
+        <h3>{{currentApp.name}}</h3>
+        <small ng-show="currentApp.options.version && currentApp.version">Version: {{currentApp.current_version}}
+        </small>
+        <br/>
+        <small>Def version: master</small>
+
+    </div>
+
+    <div class="app-item-controls">
+
+        <button type="button"
+                class="btn  btn-sm  btn-success"
+                ng-show="currentApp.options.start && currentApp.current_status != 'running'"
+                ng-click="appDetailCtrl.startApp(currentApp.name)">
+            <i class="fa fa-play"></i> Start
+        </button>
+        <button type="button"
+                class="btn  btn-sm  btn-danger"
+                ng-show="currentApp.options.stop  && currentApp.current_status == 'running'"
+                ng-click="appDetailCtrl.stopApp(currentApp.name)">
+            <i class="fa fa-stop"></i>Stop
+        </button>
+
+        <br/>
+        <select class="form-control  app-item-select"
+                ng-show="currentApp.options.list"
+                ng-model="currentApp.current_version"
+                ng-options="v as v for v in currentApp.available_versions">
+        </select>
+
+        <button type="button"
+                class="btn  btn-sm  btn-primary"
+                ng-show="currentApp.options.deploy"
+                ng-click="appDetailCtrl.deployApp(currentApp.name)">
+            <i class="fa fa-cog"></i>Deploy
+        </button>
+        <br/>
+        <button type="button"
+                ng-show="currentApp.options.log && currentApp.current_status == 'running'"
+                ng-click="appDetailCtrl.exportApp(currentApp.name)"
+                class="btn  btn-sm  btn-primary">
+            <i class="fa fa-external-link"></i>Export Log
+        </button>
+
+    </div>
+
+    <div class="app-item-logs"
+         ng-show="currentApp.option.log">
+        <h4>Logs de la applicacion</h4>
+
+        <div class="app-item-logs-content">
+            127.0.0.1 - - [10/Mar/2015:08:46:31 +0100] "GET / HTTP/1.1" 200 5100 0.0009 <br/>
+            127.0.0.1 - - [10/Mar/2015:08:46:31 +0100] "GET /list HTTP/1.1" 200 379 0.0007 <br/>
+            127.0.0.1 - - [10/Mar/2015:08:46:32 +0100] "GET /status/first-app HTTP/1.1" 200 20 0.0029 <br/>
+            127.0.0.1 - - [10/Mar/2015:08:46:32 +0100] "GET /list/first-app HTTP/1.1" 200 44 0.0047 <br/>
+            127.0.0.1 - - [10/Mar/2015:08:46:47 +0100] "GET / HTTP/1.1" 200 5100 0.0007 <br/>
+            127.0.0.1 - - [10/Mar/2015:08:46:47 +0100] "GET /list HTTP/1.1" 200 379 0.0008 <br/>
+            127.0.0.1 - - [10/Mar/2015:08:46:48 +0100] "GET /status/second-app HTTP/1.1" 200 20 0.0033 <br/>
+            127.0.0.1 - - [10/Mar/2015:08:46:48 +0100] "GET /list/second-app HTTP/1.1" 200 30 0.0054 <br/>
+
+        </div>
+    </div>
+</div>
